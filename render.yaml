@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: tvapp-backend
+    env: docker
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    rootDir: tvapp-backend
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase: # Use the database name defined below
+          name: tvapp-db
+          property: connectionString
+      - key: DB_HOST
+        fromDatabase: 
+          name: tvapp-db
+          property: host
+      - key: DB_USER
+        fromDatabase: 
+          name: tvapp-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase: 
+          name: tvapp-db
+          property: password
+      - key: DB_NAME
+        fromDatabase: 
+          name: tvapp-db
+          property: database
+  - type: pserv
+    name: tvapp-db
+    databaseName: tvapp_db
+    region: frankfurt
+    plan: free
+    ipAllowList: [] # You can restrict access here if needed
